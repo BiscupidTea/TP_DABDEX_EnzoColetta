@@ -130,7 +130,7 @@ void InsertData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
 			cin >> nuevoAlumno.apellido;
 			cout << "Ingresa el nombre " << endl;
 			cin >> nuevoAlumno.nombre;
-			cout << "Ingresa el anio, mes, dia de la fecha de nacimiento, separa con - " << endl;
+			cout << "Ingresa el anio, mes, dia de la fecha de nacimiento, separa con -, ejemplo(1999-28-08) " << endl;
 			cin >> nuevoAlumno.fechaNacimiento;
 			cout << "Ingresa el dni" << endl;
 			cin >> nuevoAlumno.DNI;
@@ -149,6 +149,7 @@ void InsertData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
 				cout << "ERROR al ingresar alumno" << endl;
 			}
 		}
+		break;
 		case 2:
 		{
 			cout << "Ingresa el curso" << endl;
@@ -387,7 +388,174 @@ void DeleteData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
 
 void UpdateData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
 {
+	int userInput;
+	int estado;
+	string update;
+	const char* query;
+	alumno nuevoAlumno;
+	curso nuevoCurso;
+	materias nuevaMateria;
+	string id1;
+	string id2;
+	string id3;
+	string id4;
 
+	do
+	{
+		system("cls");
+		cout << R"(--Seleciona que quieres actualizar--
+
+1.Alumnos
+2.Cursos 
+3.Materias
+4.Curso alumno
+5.Curso materia
+
+0.Volver
+)" << endl;
+
+		cin >> userInput;
+		system("cls");
+		switch (userInput)
+		{
+		case 1:
+		{
+			cout << "Ingresa el id del alumno a actualizar" << endl;
+			cin >> id1;
+			cout << "Ingresa el apellido del alumno" << endl;
+			cin >> nuevoAlumno.apellido;
+			cout << "Ingresa el nombre " << endl;
+			cin >> nuevoAlumno.nombre;
+			cout << "Ingresa el anio, mes, dia de la fecha de nacimiento, separa con -, ejemplo(1999-28-08) " << endl;
+			cin >> nuevoAlumno.fechaNacimiento;
+			cout << "Ingresa el dni" << endl;
+			cin >> nuevoAlumno.DNI;
+
+			update = "update alumnos set apellido = '" + nuevoAlumno.apellido + "', nombre = '" + nuevoAlumno.nombre + "', fechaNacimiento = '" + nuevoAlumno.fechaNacimiento + "', dni = '" + nuevoAlumno.DNI + "' where idAlumno = " + id1 ;
+
+			query = update.c_str();
+			estado = mysql_query(conexion, query);
+
+			if (!estado)
+			{
+				cout << "Alumno actualizado correctamente!" << endl;
+			}
+			else
+			{
+				cout << "ERROR al actualizar alumno" << endl;
+			}
+		}
+		break;
+		case 2:
+		{
+			cout << "Ingresa el id del curso" << endl;
+			cin >> id1;			
+			cout << "Ingresa el curso" << endl;
+			cin >> nuevoCurso.curso;
+			cout << "Ingresa la division " << endl;
+			cin >> nuevoCurso.division;
+			cout << "Ingresa una pequenia descripcion " << endl;
+			cin >> nuevoCurso.descripcion;
+			cout << "Ingresa el nivel" << endl;
+			cin >> nuevoCurso.nivel;
+
+			update = "insert into cursos (curso, division, descripcion, nivel) values ('" + nuevoCurso.curso + "','" + nuevoCurso.division + "','" + nuevoCurso.descripcion + "','" + nuevoCurso.nivel + "')";
+			update = "update cursos set curso = '" + nuevoCurso.curso + "', division = '" + nuevoCurso.division + "', descripcion = '" + nuevoCurso.descripcion + "', nivel = '" + nuevoCurso.nivel + "' where idCurso = " + id1;
+
+			query = update.c_str();
+			estado = mysql_query(conexion, query);
+
+			if (!estado)
+			{
+				cout << "Curso actualizado correctamente!" << endl;
+			}
+			else
+			{
+				cout << "ERROR al actualizar curso" << endl;
+			}
+		}
+		break;
+		case 3:
+		{
+			cout << "Ingresa el id de la materia" << endl;
+			cin >> id1;
+			cout << "Ingresa la materia" << endl;
+			cin >> nuevaMateria.nombre;
+			cout << "Ingresa el nivel " << endl;
+			cin >> nuevaMateria.nivel;
+
+			update = "update materias set nombreMateria = '" + nuevaMateria.nombre + "', nivel = '" + nuevaMateria.nivel + "' where idMateria = " + id1;
+
+			query = update.c_str();
+			estado = mysql_query(conexion, query);
+
+			if (!estado)
+			{
+				cout << "Materia actualizada correctamente!" << endl;
+			}
+			else
+			{
+				cout << "ERROR al actualizar materia" << endl;
+			}
+		}
+		break;
+		case 4:
+		{
+			cout << "Ingresa el id el cursoAlumnos que quiere actualizar" << endl;
+			cin >> id1;
+			cout << "Ingresa el id del curso" << endl;
+			cin >> id2;
+			cout << "Ingresa el id del alumno " << endl;
+			cin >> id3;
+			cout << "Ingresa el anio lectivo " << endl;
+			cin >> id4;
+
+			update = "update cursoAlumno set idCurso = '" + id2 + "', idAlumno = '" + id3 + "', anio_lectivo = '" + id4 + "' where idCursoAlumno = " + id1;
+
+			query = update.c_str();
+			estado = mysql_query(conexion, query);
+
+			if (!estado)
+			{
+				cout << "Curso alumno actualizado correctamente!" << endl;
+			}
+			else
+			{
+				cout << "ERROR al actualizar curso alumno" << endl;
+			}
+		}
+		break;
+		case 5:
+		{
+			cout << "Ingresa el id el cursoMateria que quiere actualizar" << endl;
+			cin >> id1;
+			cout << "Ingresa el id del curso" << endl;
+			cin >> id2;
+			cout << "Ingresa el id de la materia " << endl;
+			cin >> id3;
+			cout << "Ingresa el anio lectivo " << endl;
+			cin >> id4;
+
+			update = "update cursoMateria set idCurso = '" + id2 + "', idMateria = '" + id3 + "', anio_lectivo ='" + id4 + "' where idMateriaCurso = " + id1;
+
+			query = update.c_str();
+			estado = mysql_query(conexion, query);
+
+			if (!estado)
+			{
+				cout << "Curso materia actualizado correctamente!" << endl;
+			}
+			else
+			{
+				cout << "ERROR al actualizar curso materia" << endl;
+			}
+		}
+		break;
+		default:
+			break;
+		}
+		system("pause");
+	} while (userInput != 0);
 }
 
 void SelectData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
