@@ -174,7 +174,7 @@ void InsertData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
 				cout << "ERROR al ingresar curso" << endl;
 			}
 		}
-			break;
+		break;
 		case 3:
 		{
 			cout << "Ingresa la materia" << endl;
@@ -196,7 +196,7 @@ void InsertData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
 				cout << "ERROR al ingresar materia" << endl;
 			}
 		}
-			break;
+		break;
 		case 4:
 		{
 			cout << "Ingresa el id del curso" << endl;
@@ -220,7 +220,7 @@ void InsertData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
 				cout << "ERROR al ingresar curso alumno" << endl;
 			}
 		}
-			break;
+		break;
 		case 5:
 		{
 			cout << "Ingresa el id del curso" << endl;
@@ -244,7 +244,7 @@ void InsertData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
 				cout << "ERROR al ingresar curso materia" << endl;
 			}
 		}
-			break;
+		break;
 		default:
 			break;
 		}
@@ -254,7 +254,135 @@ void InsertData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
 
 void DeleteData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
 {
+	int userInput;
+	int estado;
+	string eliminar;
+	const char* query;
+	string id1;
 
+	do
+	{
+		system("cls");
+		cout << R"(--Seleciona que quieres eliminar--
+
+1.Alumnos
+2.Cursos 
+3.Materias
+4.Curso alumno
+5.Curso materia
+
+0.Volver
+)" << endl;
+
+		cin >> userInput;
+		system("cls");
+		switch (userInput)
+		{
+		case 1:
+		{
+			cout << "Ingresa el id del alumno que quieres eliminar" << endl;
+			cin >> id1;
+
+			eliminar = "delete from alumnos where idAlumno = '" + id1 + "'";
+
+			query = eliminar.c_str();
+			estado = mysql_query(conexion, query);
+
+			if (!estado)
+			{
+				cout << "Alumno eliminado correctamente!" << endl;
+			}
+			else
+			{
+				cout << "ERROR al eliminar alumno" << endl;
+			}
+			break;
+		}
+		case 2:
+		{
+			cout << "Ingresa el id del curso que quieres eliminar" << endl;
+			cin >> id1;
+
+			eliminar = "delete from cursos where idCurso = '" + id1 + "'";
+
+			query = eliminar.c_str();
+			estado = mysql_query(conexion, query);
+
+			if (!estado)
+			{
+				cout << "Curso eliminado correctamente!" << endl;
+			}
+			else
+			{
+				cout << "ERROR al eliminar Curso" << endl;
+			}
+			break;
+		}
+		case 3:
+		{
+			cout << "Ingresa el id de la materia que quieres eliminar" << endl;
+			cin >> id1;
+
+			eliminar = "delete from materias where idMateria = '" + id1 + "'";
+
+			query = eliminar.c_str();
+			estado = mysql_query(conexion, query);
+
+			if (!estado)
+			{
+				cout << "Materia eliminada correctamente!" << endl;
+			}
+			else
+			{
+				cout << "ERROR al eliminar materia" << endl;
+			}
+			break;
+		}
+		case 4:
+		{
+			cout << "Ingresa el id del cursoAlumno que quieres eliminar" << endl;
+			cin >> id1;
+
+			eliminar = "delete from cursoAlumno where idCursoAlumno = '" + id1 + "'";
+
+			query = eliminar.c_str();
+			estado = mysql_query(conexion, query);
+
+			if (!estado)
+			{
+				cout << "cursoAlumno eliminado correctamente!" << endl;
+			}
+			else
+			{
+				cout << "ERROR al eliminar cursoAlumno" << endl;
+			}
+			break;
+		}
+		case 5:
+		{
+			cout << "Ingresa el id del cursoMateria que quieres eliminar" << endl;
+			cin >> id1;
+
+			eliminar = "delete from cursoMateria where idMateriaCurso = '" + id1 + "'";
+
+			query = eliminar.c_str();
+			estado = mysql_query(conexion, query);
+
+			if (!estado)
+			{
+				cout << "cursoMateria eliminado correctamente!" << endl;
+			}
+			else
+			{
+				cout << "ERROR al eliminar cursoMateria" << endl;
+			}
+			break;
+		}
+		default:
+			break;
+		}
+		system("pause");
+	} while (userInput != 0);
 }
 
 void UpdateData(MYSQL* conexion, MYSQL_ROW fila, MYSQL_RES* resultado)
